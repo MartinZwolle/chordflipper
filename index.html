@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChordFlipper</title>
+    <meta name="description" content="Random guitar chord trainer with built-in metronome">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#2a4949">
+
+</head>
+<body>
+    <header>
+        <img src="images/ChordFlipper100.jpeg" alt="ChordFlipper Logo" id="logo">
+        <h1>ChordFlipper</h1>
+    </header>
+    
+    <div id="chordDisplay">
+        <!-- Akkoord zal hier worden weergegeven -->
+    </div>
+
+    <div>
+        <label for="chordsInput">Voer akkoorden in (gescheiden door komma's):</label>
+        <input type="text" id="chordsInput" placeholder="C, G, Am, F">
+    </div>
+    
+    <div>
+        <label for="intervalSelector">Wisselinterval:</label>
+        <select id="intervalSelector">
+            <option value="4">4 tikken</option>
+            <option value="8">8 tikken</option>
+            <option value="12">12 tikken</option>
+            <option value="16" selected>16 tikken</option>
+        </select>
+    </div>
+
+    <button id="startButton">Start</button>
+    <div id="tempoContainer">
+        <span>Tempo:</span>
+        <div id="tempo">60</div>
+        <div class="tempo-controls">
+            <button class="tempo-change" data-change="-5">-5</button>
+            <button class="tempo-change" data-change="-1">-</button>
+            <button class="tempo-change" data-change="+1">+</button>
+            <button class="tempo-change" data-change="+5">+5</button>
+        </div>
+    </div>
+    
+    <div class="created-by">
+        Created by <a href="https://elegantchaos.nl" target="_blank">Martin</a>
+    </div>
+
+    <script src="metronome.js"></script>
+    <script src="app.js"></script>
+ <script>
+      // Registratie van de service worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then((registration) => {
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, (error) => {
+              console.log('ServiceWorker registration failed: ', error);
+            });
+        });
+      }
+    </script>
+</body>
+</html>
