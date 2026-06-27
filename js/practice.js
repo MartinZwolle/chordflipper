@@ -118,9 +118,8 @@ function startPractice() {
 
     startCountdown(() => {
         setMode(AppState.RUNNING);
-        showNextChord();
 
-        metronome.start();
+        metronome.start(true);
         requestWakeLock();
     });
 }
@@ -158,12 +157,12 @@ function resumePractice() {
         return;
     }
 
-        setMode(AppState.RUNNING);
+    setMode(AppState.RUNNING);
 
-        metronome.start();
-        requestWakeLock();
+    metronome.start(false);
+    requestWakeLock();
 
-        setPauseButtonPaused();
+    setPauseButtonPaused();
 }
 
 function toggleStartStop() {

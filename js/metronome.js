@@ -55,7 +55,7 @@ class Metronome {
         }
     }
 
-    start() {
+    start(resetBar = true) {
         if (this.isRunning) {
             return;
         }
@@ -65,7 +65,11 @@ class Metronome {
         }
 
         this.isRunning = true;
-        this.currentBeatInBar = 0;
+
+        if (resetBar) {
+            this.currentBeatInBar = 0;
+        }
+
         this.nextNoteTime = this.audioContext.currentTime + 0.05;
 
         this.intervalID = setInterval(() => this.scheduler(), this.lookahead);
