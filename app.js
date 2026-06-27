@@ -68,9 +68,11 @@ function startCountdown(callback) {
         } else {
             clearInterval(countdownTimer);
             countdownOverlay.classList.add('hidden');
+
             startButton.disabled = false;
             pauseButton.disabled = false;
             isCountingDown = false;
+
             callback();
         }
     }, 1000);
@@ -104,7 +106,7 @@ function releaseWakeLock() {
 function startPractice() {
     startButton.textContent = 'Stop / Reset';
     pauseButton.textContent = 'Pauze';
-    pauseButton.hidden = false;
+    pauseButton.removeAttribute('hidden');
 
     isPaused = false;
     beatCounter = 0;
@@ -145,8 +147,8 @@ function resumePractice() {
 // Stop en reset de oefening
 function stopPractice() {
     startButton.textContent = 'Start';
-    pauseButton.hidden = true;
     pauseButton.textContent = 'Pauze';
+    pauseButton.setAttribute('hidden', '');
 
     isPaused = false;
     beatCounter = 0;
