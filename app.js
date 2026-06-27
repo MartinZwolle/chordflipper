@@ -104,7 +104,7 @@ function releaseWakeLock() {
 function startPractice() {
     startButton.textContent = 'Stop / Reset';
     pauseButton.textContent = 'Pauze';
-    pauseButton.classList.remove('hidden');
+    pauseButton.hidden = false;
 
     isPaused = false;
     beatCounter = 0;
@@ -145,7 +145,7 @@ function resumePractice() {
 // Stop en reset de oefening
 function stopPractice() {
     startButton.textContent = 'Start';
-    pauseButton.classList.add('hidden');
+    pauseButton.hidden = true;
     pauseButton.textContent = 'Pauze';
 
     isPaused = false;
