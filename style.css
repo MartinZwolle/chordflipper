@@ -1,176 +1,237 @@
+/* =====================================
+   RESET
+===================================== */
+
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* Zorg ervoor dat padding en border worden meegerekend in de breedte en hoogte */
+    box-sizing: border-box;
 }
 
-html, body {
+/* =====================================
+   KLEUREN
+===================================== */
+
+:root {
+    --background: #1f2227;
+    --surface: #2b3138;
+
+    --accent: #4f8f8f;
+    --accent-hover: #5ea5a5;
+
+    --text: #ffffff;
+    --text-secondary: #b6bcc3;
+
+    --radius: 12px;
+}
+
+/* =====================================
+   PAGINA
+===================================== */
+
+html,
+body {
     height: 100%;
 }
 
 body {
-    background-color: #1e2227;
+    background: var(--background);
+    color: var(--text);
+
+    font-family: Arial, Helvetica, sans-serif;
+
     display: flex;
-    align-items: center;
     justify-content: center;
-    flex-direction: column; /* Zorgt ervoor dat alle elementen onder elkaar worden geplaatst */
-    font-family: Arial, sans-serif;
-    color: #e9e9e9;
-    padding: 20px; /* Voeg wat ruimte toe rond de inhoud */
+    align-items: center;
+
+    padding: 20px;
 }
 
-header {
+/* =====================================
+   APP
+===================================== */
+
+.app {
+    width: 100%;
+    max-width: 480px;
+}
+
+/* =====================================
+   HEADER
+===================================== */
+
+.app-header {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 #logo {
-    width: 100px; /* Pas de grootte van het logo aan indien nodig */
-    height: auto;
+    width: 90px;
+    margin-bottom: 12px;
 }
 
 h1 {
-    font-size: 36px;
-    margin-top: 10px;
+    font-size: 2rem;
+    font-weight: bold;
 }
 
-#chordDisplay {
-    font-size: 24px;
-    text-align: center;
-    margin-bottom: 20px;
+/* =====================================
+   CHORD DISPLAY
+===================================== */
+
+.practice-screen {
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 220px;
 }
 
-#tempoContainer {
+.chord-display {
+    font-size: 8rem;
+    font-weight: bold;
     text-align: center;
-    margin-top: 20px;
+}
+
+/* =====================================
+   COUNTDOWN
+===================================== */
+
+.countdown-display {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0,0,0,.82);
+
+    font-size: 8rem;
+    font-weight: bold;
+}
+
+/* =====================================
+   SETTINGS
+===================================== */
+
+.settings-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    margin-top: 25px;
 }
 
 label {
-    display: block;
-    margin: 10px 0;
-    font-size: 16px;
+    color: var(--text-secondary);
 }
 
-input[type="text"] {
-    width: calc(100% - 20px); /* Zorg ervoor dat het invoerveld netjes past binnen de beschikbare ruimte */
-    padding: 10px;
-    border: 2px solid #2a4949;
-    border-radius: 5px;
-    font-size: 16px;
-    background-color: #1e2227;
-    color: #e9e9e9;
-}
-
+input,
 select {
-    width: calc(100% - 20px); /* Zorg ervoor dat de dropdown netjes past binnen de beschikbare ruimte */
-    padding: 10px;
-    border: 2px solid #2a4949;
-    border-radius: 5px;
-    font-size: 16px;
-    background-color: #1e2227;
-    color: #e9e9e9;
-    margin-top: 10px;
-}
+    background: var(--surface);
 
-button {
-    padding: 10px 20px; /* Zorg ervoor dat de knoppen groter en gemakkelijker te klikken zijn */
+    color: white;
+
     border: none;
-    border-radius: 5px;
-    background-color: #2a4949;
-    color: #e9e9e9;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 10px;
+    border-radius: var(--radius);
+
+    padding: 12px;
+
+    font-size: 1rem;
 }
 
-button:focus {
-    outline: none;
+/* =====================================
+   TEMPO
+===================================== */
+
+.tempo-section {
+    text-align: center;
+    margin-top: 15px;
 }
 
-button#startButton {
-    font-size: 18px;
-    width: 150px;
-    height: 50px;
+.tempo-display {
+    font-size: 2rem;
+    margin: 10px 0;
 }
 
 .tempo-controls {
-    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
 }
 
-.tempo-change {
-    padding: 6px;
-    width: 40px;
-    height: 40px;
-    background-color: #2a4949;
-    border-radius: 100%;
-    color: #e9e9e9;
-    cursor: pointer;
-    margin: 5px;
-}
+/* =====================================
+   BUTTONS
+===================================== */
 
-.created-by {
-    margin-top: 40px;
-    text-align: center;
-}
-
-a {
-    color: #e9e9e9;
-}
-
-a:hover {
-    color: #356161;
-}
-
-.play {
-    width: 0;
-    height: 0;
-    border-top: 30px solid transparent;
-    border-bottom: 30px solid transparent;
-    border-left: 50px solid #e9e9e9;
-    margin-left: 15px;
-}
-
-.pause {
-    width: 15px;
-    height: 60px;
+button {
     border: none;
-    border-left: 15px solid #e9e9e9;
-    border-right: 15px solid #e9e9e9;
+
+    border-radius: var(--radius);
+
+    background: var(--accent);
+    color: white;
+
+    cursor: pointer;
+
+    padding: 14px 20px;
+
+    font-size: 1rem;
+
+    transition: background .2s ease;
 }
+
+button:hover {
+    background: var(--accent-hover);
+}
+
+.main-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+
+    margin-top: 30px;
+}
+
+#startButton {
+    min-width: 180px;
+    font-size: 1.1rem;
+}
+
+#pauseButton {
+    min-width: 140px;
+}
+
+/* =====================================
+   FOOTER
+===================================== */
+
 .footer-links {
-    margin-top: 10px;
-    font-size: 0.8em;
-    opacity: 0.8;
+    margin-top: 40px;
+
     text-align: center;
+
+    font-size: .85rem;
+
+    color: var(--text-secondary);
 }
 
 .footer-links a {
-    color: #e9e9e9;
+    color: inherit;
     text-decoration: none;
 }
 
 .footer-links a:hover {
-    text-decoration: underline;
-}
-.countdown-overlay {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.75);
-    z-index: 999;
-}
-
-.countdown-overlay.hidden {
-    display: none;
-}
-
-.countdown-text {
-    font-size: 8rem;
-    font-weight: bold;
     color: white;
 }
+
+/* =====================================
+   HULPKLASSEN
+===================================== */
+
 .hidden {
     display: none !important;
 }
