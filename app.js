@@ -1,4 +1,3 @@
-// Haal de benodigde elementen op
 const startButton = document.getElementById('startButton');
 const pauseButton = document.getElementById('pauseButton');
 const chordDisplay = document.getElementById('chordDisplay');
@@ -8,20 +7,27 @@ const tempoDisplay = document.getElementById('tempo');
 const countdownOverlay = document.getElementById('countdownOverlay');
 const countdownText = document.getElementById('countdownText');
 
-// Lijst met standaard akkoorden
 let chords = ['C', 'G', 'Am', 'F'];
 let currentChordIndex = -1;
 let beatCounter = 0;
 let isCountingDown = false;
 let isPaused = false;
+let hasStarted = false;
 
-// Instantie van de metronoom
 const metronome = new Metronome(60);
-
-// Update het tempo display
 tempoDisplay.textContent = metronome.tempo;
 
-// Functie om een nieuw akkoord weer te geven
+// Zorg dat pauzeknop bij laden verborgen is
+pauseButton.style.display = 'none';
+
+function showPauseButton() {
+    pauseButton.style.display = 'inline-block';
+}
+
+function hidePauseButton() {
+    pauseButton.style.display = 'none';
+}
+
 function displayNextChord() {
     if (chords.length === 0) {
         chordDisplay.textContent = '-';
@@ -32,7 +38,6 @@ function displayNextChord() {
     chordDisplay.textContent = chords[randomIndex];
 }
 
-// Genereer een willekeurige index zonder direct herhaling
 function getRandomChordIndex() {
     if (chords.length === 1) {
         currentChordIndex = 0;
@@ -40,6 +45,7 @@ function getRandomChordIndex() {
     }
 
     let randomIndex;
+
     do {
         randomIndex = Math.floor(Math.random() * chords.length);
     } while (randomIndex === currentChordIndex);
@@ -48,7 +54,6 @@ function getRandomChordIndex() {
     return randomIndex;
 }
 
-// Countdown tonen
 function startCountdown(callback) {
     isCountingDown = true;
     startButton.disabled = true;
@@ -67,8 +72,8 @@ function startCountdown(callback) {
             countdownText.textContent = steps[stepIndex];
         } else {
             clearInterval(countdownTimer);
-            countdownOverlay.classList.add('hidden');
 
+            countdownOverlay.classList.add('hidden');
             startButton.disabled = false;
             pauseButton.disabled = false;
             isCountingDown = false;
@@ -78,11 +83,9 @@ function startCountdown(callback) {
     }, 1000);
 }
 
-// Wake lock aanvragen
 function requestWakeLock() {
     if ('wakeLock' in navigator) {
         navigator.wakeLock.request('screen').then(lock => {
-            console.log('Screen Wake Lock is active');
             window.wakeLock = lock;
         }).catch(err => {
             console.error(`${err.name}, ${err.message}`);
@@ -90,11 +93,9 @@ function requestWakeLock() {
     }
 }
 
-// Wake lock vrijgeven
 function releaseWakeLock() {
     if (window.wakeLock) {
         window.wakeLock.release().then(() => {
-            console.log('Screen Wake Lock was released');
             window.wakeLock = null;
         }).catch(err => {
             console.error(`${err.name}, ${err.message}`);
@@ -102,13 +103,10 @@ function releaseWakeLock() {
     }
 }
 
-// Start de oefening
-function startPractice() {
-    startButton.textContent = 'Stop / Reset';
-    pauseButton.textContent = 'Pauze';
-    pauseButton.removeAttribute('hidden');
-
+function beginRunning() {
     isPaused = false;
+    pauseButton.textContent = 'Pauze';
+
     beatCounter = 0;
     displayNextChord();
 
@@ -116,7 +114,15 @@ function startPractice() {
     requestWakeLock();
 }
 
-// Pauzeer de oefening
+function startPractice() {
+    hasStarted = true;
+    startButton.textContent = 'Stop / Reset';
+    pauseButton.textContent = 'Pauze';
+    showPauseButton();
+
+    startCountdown(beginRunning);
+}
+
 function pausePractice() {
     if (!metronome.isRunning) {
         return;
@@ -129,7 +135,6 @@ function pausePractice() {
     releaseWakeLock();
 }
 
-// Hervat de oefening
 function resumePractice() {
     if (!isPaused) {
         return;
@@ -144,33 +149,31 @@ function resumePractice() {
     });
 }
 
-// Stop en reset de oefening
 function stopPractice() {
-    startButton.textContent = 'Start';
-    pauseButton.textContent = 'Pauze';
-    pauseButton.setAttribute('hidden', '');
-
+    hasStarted = false;
     isPaused = false;
     beatCounter = 0;
+
+    startButton.textContent = 'Start';
+    pauseButton.textContent = 'Pauze';
+    hidePauseButton();
 
     metronome.stop();
     releaseWakeLock();
 }
 
-// Start of stop/reset de oefening
 function toggleStartStop() {
     if (isCountingDown) {
         return;
     }
 
-    if (!metronome.isRunning && !isPaused) {
-        startCountdown(startPractice);
+    if (!hasStarted) {
+        startPractice();
     } else {
         stopPractice();
     }
 }
 
-// Pauzeer of hervat de oefening
 function togglePauseResume() {
     if (isCountingDown) {
         return;
@@ -183,28 +186,25 @@ function togglePauseResume() {
     }
 }
 
-// Update het wisselinterval van de akkoorden
 function updateInterval() {
     beatCounter = 0;
 }
 
-// Update het tempo van de metronoom
 function updateTempo(event) {
     metronome.tempo += parseInt(event.target.dataset.change);
     tempoDisplay.textContent = metronome.tempo;
 }
 
-// Event listeners
 startButton.addEventListener('click', toggleStartStop);
 pauseButton.addEventListener('click', togglePauseResume);
 intervalSelector.addEventListener('change', updateInterval);
 
 const tempoChangeButtons = document.getElementsByClassName('tempo-change');
+
 for (let i = 0; i < tempoChangeButtons.length; i++) {
     tempoChangeButtons[i].addEventListener('click', updateTempo);
 }
 
-// Laad de akkoordenlijst bij pagina-laden
 document.addEventListener('DOMContentLoaded', () => {
     chordsInput.addEventListener('change', () => {
         chords = chordsInput.value
@@ -219,7 +219,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Wordt aangeroepen op iedere metronoomtik
 metronome.onBeat = function () {
     beatCounter++;
 
