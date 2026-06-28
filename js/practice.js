@@ -117,10 +117,16 @@ function startPractice() {
     preparePractice();
 
     startCountdown(() => {
-        setMode(AppState.RUNNING);
+    setMode(AppState.RUNNING);
 
-        metronome.start(true);
-        requestWakeLock();
+    const totalBeats = parseInt(intervalSelector.value, 10);
+
+    createBeatIndicator(totalBeats);
+    showBeatIndicator();
+    updateBeatIndicator(1);
+
+    metronome.start(true);
+    requestWakeLock();
     });
 }
 
@@ -132,6 +138,7 @@ function stopPractice() {
 
     showSettings();
     hidePauseButton();
+    hideBeatIndicator();
 
     setStartButtonIdle();
     setPauseButtonPaused();
@@ -205,10 +212,15 @@ function handleBeat() {
 
     const beatsUntilChange = parseInt(intervalSelector.value, 10);
 
+    // Nieuw akkoord op de eerste tel
     if (state.beatCounter === 1) {
         showNextChord();
     }
 
+    // Beat-indicator bijwerken
+    updateBeatIndicator(state.beatCounter);
+
+    // Nieuwe cyclus starten
     if (state.beatCounter >= beatsUntilChange) {
         state.beatCounter = 0;
     }

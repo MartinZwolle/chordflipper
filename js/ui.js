@@ -14,6 +14,7 @@ const chordsInput = document.getElementById('chordsInput');
 const intervalSelector = document.getElementById('intervalSelector');
 
 const tempoDisplay = document.getElementById('tempo');
+const beatIndicator = document.getElementById("beatIndicator");
 
 
 // ===============================
@@ -92,4 +93,43 @@ function updateTempoDisplay(tempo) {
 
     tempoDisplay.textContent = tempo;
 
+}
+// ===============================
+// BEAT INDICATOR
+// ===============================
+
+function createBeatIndicator(totalBeats) {
+
+    beatIndicator.innerHTML = "";
+
+    for (let i = 1; i <= totalBeats; i++) {
+
+        if (i > 1 && (i - 1) % 4 === 0) {
+            const gap = document.createElement("div");
+            gap.className = "beat-gap";
+            beatIndicator.appendChild(gap);
+        }
+
+        const dot = document.createElement("div");
+        dot.className = "beat-dot";
+        beatIndicator.appendChild(dot);
+    }
+}
+
+function updateBeatIndicator(currentBeat) {
+
+    const dots = beatIndicator.querySelectorAll(".beat-dot");
+
+    dots.forEach((dot, index) => {
+        dot.classList.toggle("active", index === currentBeat - 1);
+    });
+
+}
+
+function showBeatIndicator() {
+    beatIndicator.classList.remove("hidden");
+}
+
+function hideBeatIndicator() {
+    beatIndicator.classList.add("hidden");
 }
