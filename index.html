@@ -29,6 +29,40 @@
         <section id="settingsPanel" class="settings-panel">
             <label for="chordsInput">Akkoorden</label>
             <input type="text" id="chordsInput" value="C, G, Am, F">
+            <div class="favorite-sets">
+    <label for="favoriteSetSelect">Opgeslagen akkoordensets</label>
+
+    <div class="favorite-set-row">
+        <select id="favoriteSetSelect">
+            <option value="">Kies een akkoordenset</option>
+        </select>
+
+        <button id="loadFavoriteSetButton" type="button">
+            Laden
+        </button>
+    </div>
+
+    <div class="favorite-set-row">
+        <input
+            id="favoriteSetName"
+            type="text"
+            placeholder="Naam, bijvoorbeeld Blues in A"
+            maxlength="40"
+        >
+
+        <button id="saveFavoriteSetButton" type="button">
+            Opslaan
+        </button>
+    </div>
+
+    <button
+        id="deleteFavoriteSetButton"
+        type="button"
+        disabled
+    >
+        Verwijderen
+    </button>
+</div>
 
             <label for="intervalSelector">Interval</label>
             <select id="intervalSelector">
