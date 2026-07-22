@@ -15,6 +15,7 @@ function initApp() {
     pauseButton.addEventListener('click', togglePauseResume);
     saveFavoriteSetButton.addEventListener('click', saveCurrentFavoriteSet);
     favoriteSetSelect.addEventListener('change', loadSelectedFavoriteSet);
+    deleteFavoriteSetButton.addEventListener('click',deleteSelectedFavoriteSet);
 
     intervalSelector.addEventListener('change', () => {
         state.beatCounter = 0;
@@ -69,6 +70,8 @@ function renderFavoriteSets() {
 
         favoriteSetSelect.appendChild(option);
     });
+
+    deleteFavoriteSetButton.disabled = true;
 }
 
 function saveCurrentFavoriteSet() {
@@ -115,5 +118,23 @@ function loadSelectedFavoriteSet() {
     }
 
     deleteFavoriteSetButton.disabled = false;
+}
+function deleteSelectedFavoriteSet() {
+    const selectedIndex = favoriteSetSelect.value;
+
+    if (selectedIndex === '') {
+        return;
+    }
+
+    const favorites = loadFavorites();
+
+    favorites.splice(Number(selectedIndex), 1);
+
+    saveFavorites(favorites);
+
+    favoriteSetSelect.value = '';
+    deleteFavoriteSetButton.disabled = true;
+
+    renderFavoriteSets();
 }
 initApp();
