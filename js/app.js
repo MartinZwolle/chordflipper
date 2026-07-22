@@ -14,7 +14,7 @@ function initApp() {
     startButton.addEventListener('click', toggleStartStop);
     pauseButton.addEventListener('click', togglePauseResume);
     saveFavoriteSetButton.addEventListener('click', saveCurrentFavoriteSet);
-
+    favoriteSetSelect.addEventListener('change', loadSelectedFavoriteSet);
 
     intervalSelector.addEventListener('change', () => {
         state.beatCounter = 0;
@@ -92,5 +92,28 @@ function saveCurrentFavoriteSet() {
 
     renderFavoriteSets();
 }
+function loadSelectedFavoriteSet() {
+    const selectedIndex = favoriteSetSelect.value;
 
+    if (selectedIndex === '') {
+        return;
+    }
+
+    const favorites = loadFavorites();
+    const selectedFavorite = favorites[selectedIndex];
+
+    if (!selectedFavorite) {
+        return;
+    }
+
+    chordsInput.value = selectedFavorite.chords;
+    updateChordsFromInput();
+
+    if (isRunning()) {
+        showNextChord();
+        state.beatCounter = 0;
+    }
+
+    deleteFavoriteSetButton.disabled = false;
+}
 initApp();
