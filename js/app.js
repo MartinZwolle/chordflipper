@@ -54,7 +54,7 @@ function updateTempo(event) {
     }
 
     updateTempoDisplay(metronome.tempo);
-}2
+}
 function renderFavoriteSets() {
     const favorites = loadFavorites();
 
