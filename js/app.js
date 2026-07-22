@@ -3,12 +3,18 @@
 // ===============================
 
 const metronome = new Metronome(60);
+const favoriteSetSelect = document.getElementById('favoriteSetSelect');
+const favoriteSetName = document.getElementById('favoriteSetName');
+const saveFavoriteSetButton = document.getElementById('saveFavoriteSetButton');
+const deleteFavoriteSetButton = document.getElementById('deleteFavoriteSetButton');
 
 function initApp() {
     updateTempoDisplay(metronome.tempo);
 
     startButton.addEventListener('click', toggleStartStop);
     pauseButton.addEventListener('click', togglePauseResume);
+    saveFavoriteSetButton.addEventListener('click', saveCurrentFavoriteSet);
+
 
     intervalSelector.addEventListener('change', () => {
         state.beatCounter = 0;
@@ -32,6 +38,8 @@ function initApp() {
     metronome.onBeat = handleBeat;
 
     showChord(state.chords[0]);
+    
+    renderFavoriteSets();
 }
 
 function updateTempo(event) {
@@ -46,6 +54,43 @@ function updateTempo(event) {
     }
 
     updateTempoDisplay(metronome.tempo);
+}2
+function renderFavoriteSets() {
+    const favorites = loadFavorites();
+
+    favoriteSetSelect.innerHTML = `
+        <option value="">Kies een akkoordenset</option>
+    `;
+
+    favorites.forEach((favorite, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = favorite.name;
+
+        favoriteSetSelect.appendChild(option);
+    });
+}
+
+function saveCurrentFavoriteSet() {
+    const name = favoriteSetName.value.trim();
+    const chords = chordsInput.value.trim();
+
+    if (!name || !chords) {
+        return;
+    }
+
+    const favorites = loadFavorites();
+
+    favorites.push({
+        name,
+        chords
+    });
+
+    saveFavorites(favorites);
+
+    favoriteSetName.value = '';
+
+    renderFavoriteSets();
 }
 
 initApp();
