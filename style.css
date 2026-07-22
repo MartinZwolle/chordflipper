@@ -270,3 +270,50 @@ button:hover {
 .beat-gap {
     width: 10px;
 }
+.favorite-sets {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.favorite-sets label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.favorite-set-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.favorite-set-row select,
+.favorite-set-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.favorite-set-row button,
+#deleteFavoriteSetButton {
+  flex-shrink: 0;
+}
+
+#deleteFavoriteSetButton {
+  width: 100%;
+}
+
+#deleteFavoriteSetButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .favorite-set-row {
+    flex-direction: column;
+  }
+
+  .favorite-set-row button {
+    width: 100%;
+  }
+}
