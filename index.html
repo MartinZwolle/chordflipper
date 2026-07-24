@@ -3,94 +3,240 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChordFlipper</title>
-    <meta name="description" content="Random guitar chord trainer with built-in metronome">
-    <meta name="theme-color" content="#2a4949">
 
-    <link rel="stylesheet" href="style.css?v=3">
+    <title>ChordFlipper</title>
+
+    <meta
+        name="description"
+        content="Oefen gitaarakkoorden op de maat met een ingebouwde metronoom."
+    >
+    <meta name="theme-color" content="#1f2227">
+
+    <link rel="stylesheet" href="style.css?v=4">
     <link rel="manifest" href="/manifest.json">
-    <link rel="icon" type="image/png" href="/icon/icon-192x192.png?v=3">
-    <link rel="apple-touch-icon" href="/icon/icon-192x192.png?v=3">
+    <link
+        rel="icon"
+        type="image/png"
+        href="/icon/icon-192x192.png?v=3"
+    >
+    <link
+        rel="apple-touch-icon"
+        href="/icon/icon-192x192.png?v=3"
+    >
 </head>
+
 <body>
     <main class="app">
+
         <header class="app-header">
-            <img src="images/ChordFlipper100.jpeg" alt="ChordFlipper Logo" id="logo">
-            <h1>ChordFlipper</h1>
+            <img
+                src="images/ChordFlipper100.jpeg"
+                alt=""
+                id="logo"
+            >
+
+            <div class="brand-text">
+                <h1>ChordFlipper</h1>
+                <p>Oefen akkoordwisselingen op de maat.</p>
+            </div>
         </header>
 
-        <section class="practice-screen">
-            <div id="chordDisplay" class="chord-display">C</div>
-            <div id="countdownDisplay" class="countdown-display hidden">3</div>
-        </section>
+        <div class="app-layout">
 
-        <div id="beatIndicator" class="beat-indicator hidden"></div>
-
-        <section id="settingsPanel" class="settings-panel">
-            <label for="chordsInput">Akkoorden</label>
-            <input type="text" id="chordsInput" value="C, G, Am, F">
-            <div class="favorite-sets">
-    <label for="favoriteSetSelect">Opgeslagen akkoordensets</label>
-
-    <div class="favorite-set-row">
-        <select id="favoriteSetSelect">
-            <option value="">Kies een akkoordenset</option>
-        </select>
-    </div>
-
-    <div class="favorite-set-row">
-        <input
-            id="favoriteSetName"
-            type="text"
-            placeholder="Naam, bijvoorbeeld Blues in A"
-            maxlength="40"
-        >
-
-        <button id="saveFavoriteSetButton" type="button">
-            Opslaan
-        </button>
-    </div>
-
-    <button
-        id="deleteFavoriteSetButton"
-        type="button"
-        disabled
-    >
-        Verwijderen
-    </button>
-</div>
-
-            <label for="intervalSelector">Interval</label>
-            <select id="intervalSelector">
-                <option value="4">4 beats</option>
-                <option value="8">8 beats</option>
-                <option value="12">12 beats</option>
-                <option value="16" selected>16 beats</option>
-            </select>
-
-            <div class="tempo-section">
-                <span>Tempo</span>
-                <div id="tempo" class="tempo-display">60</div>
-                <div class="tempo-controls">
-                    <button class="tempo-change" type="button" data-change="-5">-5</button>
-                    <button class="tempo-change" type="button" data-change="-1">-</button>
-                    <button class="tempo-change" type="button" data-change="1">+</button>
-                    <button class="tempo-change" type="button" data-change="5">+5</button>
+            <section
+                id="settingsPanel"
+                class="settings-panel"
+                aria-labelledby="settingsTitle"
+            >
+                <div class="section-heading">
+                    <h2 id="settingsTitle">Instellen</h2>
+                    <p>Kies je akkoorden, interval en tempo.</p>
                 </div>
-            </div>
-        </section>
 
-        <section class="main-controls">
-            <button id="startButton" type="button">Start</button>
-            <button id="pauseButton" type="button" class="hidden">Pauze</button>
-        </section>
+                <div class="field">
+                    <label for="chordsInput">Akkoorden</label>
+
+                    <input
+                        type="text"
+                        id="chordsInput"
+                        value="C, G, Am, F"
+                        autocomplete="off"
+                    >
+                </div>
+
+                <div class="favorite-sets">
+                    <div class="field">
+                        <label for="favoriteSetSelect">
+                            Opgeslagen akkoordensets
+                        </label>
+
+                        <select id="favoriteSetSelect">
+                            <option value="">
+                                Kies een akkoordenset
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="favorite-actions">
+                        <input
+                            id="favoriteSetName"
+                            type="text"
+                            placeholder="Naam, bijvoorbeeld Blues in A"
+                            maxlength="40"
+                            autocomplete="off"
+                        >
+
+                        <button
+                            id="saveFavoriteSetButton"
+                            type="button"
+                            class="secondary-button"
+                        >
+                            Opslaan
+                        </button>
+
+                        <button
+                            id="deleteFavoriteSetButton"
+                            type="button"
+                            class="icon-button danger-button"
+                            aria-label="Geselecteerde akkoordenset verwijderen"
+                            title="Geselecteerde akkoordenset verwijderen"
+                            disabled
+                        >
+                            Verwijderen
+                        </button>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="intervalSelector">Wissel na</label>
+
+                    <select id="intervalSelector">
+                        <option value="4">4 beats</option>
+                        <option value="8">8 beats</option>
+                        <option value="12">12 beats</option>
+                        <option value="16" selected>16 beats</option>
+                    </select>
+                </div>
+
+                <div class="tempo-section">
+                    <span class="tempo-label">Tempo</span>
+
+                    <div class="tempo-value">
+                        <span id="tempo" class="tempo-display">60</span>
+                        <span class="tempo-unit">BPM</span>
+                    </div>
+
+                    <div
+                        class="tempo-controls"
+                        aria-label="Tempo aanpassen"
+                    >
+                        <button
+                            class="tempo-change"
+                            type="button"
+                            data-change="-5"
+                        >
+                            −5
+                        </button>
+
+                        <button
+                            class="tempo-change"
+                            type="button"
+                            data-change="-1"
+                            aria-label="Tempo één BPM lager"
+                        >
+                            −
+                        </button>
+
+                        <button
+                            class="tempo-change"
+                            type="button"
+                            data-change="1"
+                            aria-label="Tempo één BPM hoger"
+                        >
+                            +
+                        </button>
+
+                        <button
+                            class="tempo-change"
+                            type="button"
+                            data-change="5"
+                        >
+                            +5
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="practice-panel">
+                <div class="section-heading practice-heading">
+                    <h2>Oefenen</h2>
+                    <p>Volg het akkoord en blijf op de maat.</p>
+                </div>
+
+                <div class="practice-screen">
+                    <div
+                        id="chordDisplay"
+                        class="chord-display"
+                        aria-live="polite"
+                    >
+                        C
+                    </div>
+
+                    <div
+                        id="countdownDisplay"
+                        class="countdown-display hidden"
+                        aria-live="assertive"
+                    >
+                        3
+                    </div>
+                </div>
+
+                <div
+                    id="beatIndicator"
+                    class="beat-indicator hidden"
+                    aria-label="Beat-indicator"
+                ></div>
+
+                <section class="main-controls">
+                    <button id="startButton" type="button">
+                        Start
+                    </button>
+
+                    <button
+                        id="pauseButton"
+                        type="button"
+                        class="hidden secondary-button"
+                    >
+                        Pauze
+                    </button>
+                </section>
+            </section>
+
+        </div>
 
         <footer class="footer-links">
-            Version 2.1 ·
-            <a href="https://pages.cloudflare.com/" target="_blank">Hosted on Cloudflare Pages</a>
-            ·
-            <a href="https://github.com/MartinZwolle/chordflipper" target="_blank">Source code on GitHub</a>
+            <span>Versie 2.1</span>
+            <span aria-hidden="true">·</span>
+
+            <a
+                href="https://pages.cloudflare.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Cloudflare Pages
+            </a>
+
+            <span aria-hidden="true">·</span>
+
+            <a
+                href="https://github.com/MartinZwolle/chordflipper"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                GitHub
+            </a>
         </footer>
+
     </main>
 
     <script src="js/metronome.js?v=4"></script>

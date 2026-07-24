@@ -8,6 +8,13 @@
     box-sizing: border-box;
 }
 
+button,
+input,
+select {
+    font: inherit;
+}
+
+
 /* =====================================
    KLEUREN
 ===================================== */
@@ -15,208 +22,477 @@
 :root {
     --background: #1f2227;
     --surface: #2b3138;
+    --surface-soft: #252a30;
+    --surface-border: rgba(255, 255, 255, 0.08);
 
     --accent: #4f8f8f;
     --accent-hover: #5ea5a5;
+    --accent-dark: #3d6f6f;
 
     --text: #ffffff;
     --text-secondary: #b6bcc3;
+    --text-muted: #858c94;
 
-    --radius: 12px;
+    --danger: #b56464;
+    --danger-hover: #cb7474;
+
+    --radius-small: 10px;
+    --radius: 16px;
+    --radius-large: 22px;
+
+    --shadow:
+        0 20px 60px rgba(0, 0, 0, 0.18);
 }
+
 
 /* =====================================
    PAGINA
 ===================================== */
 
-html,
-body {
-    height: 100%;
+html {
+    min-height: 100%;
+    background: var(--background);
 }
 
 body {
-    background: var(--background);
-    color: var(--text);
+    min-height: 100vh;
 
+    background:
+        radial-gradient(
+            circle at top,
+            rgba(79, 143, 143, 0.08),
+            transparent 34rem
+        ),
+        var(--background);
+
+    color: var(--text);
     font-family: Arial, Helvetica, sans-serif;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    padding: 20px;
+    padding:
+        max(20px, env(safe-area-inset-top))
+        max(18px, env(safe-area-inset-right))
+        max(20px, env(safe-area-inset-bottom))
+        max(18px, env(safe-area-inset-left));
 }
+
 
 /* =====================================
    APP
 ===================================== */
 
 .app {
-    width: 100%;
-    max-width: 480px;
+    width: min(100%, 1040px);
+    margin: 0 auto;
 }
+
 
 /* =====================================
    HEADER
 ===================================== */
 
 .app-header {
-    text-align: center;
-    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+
+    margin-bottom: 22px;
 }
 
 #logo {
-    width: 90px;
-    margin-bottom: 12px;
+    display: block;
+
+    width: 62px;
+    height: 62px;
+
+    border-radius: 15px;
+    object-fit: cover;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
 }
 
-h1 {
-    font-size: 2rem;
-    font-weight: bold;
+.brand-text h1 {
+    font-size: clamp(1.45rem, 3vw, 2rem);
+    line-height: 1;
 }
+
+.brand-text p {
+    margin-top: 7px;
+
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
 
 /* =====================================
-   CHORD DISPLAY
+   HOOFDLAYOUT
 ===================================== */
 
-.practice-screen {
-    position: relative;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    min-height: 220px;
+.app-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: 20px;
+    align-items: stretch;
 }
 
-.chord-display {
-    font-size: 8rem;
-    font-weight: bold;
-    text-align: center;
+.settings-panel,
+.practice-panel {
+    min-width: 0;
+
+    padding: 24px;
+
+    background: rgba(43, 49, 56, 0.72);
+    border: 1px solid var(--surface-border);
+    border-radius: var(--radius-large);
+
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(8px);
 }
-
-/* =====================================
-   COUNTDOWN
-===================================== */
-
-.countdown-display {
-    position: absolute;
-    inset: 0;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background: rgba(0,0,0,.82);
-
-    font-size: 8rem;
-    font-weight: bold;
-}
-
-/* =====================================
-   SETTINGS
-===================================== */
 
 .settings-panel {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-
-    margin-top: 25px;
+    gap: 18px;
 }
 
-label {
+.practice-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* =====================================
+   KOPPEN
+===================================== */
+
+.section-heading {
+    margin-bottom: 2px;
+}
+
+.section-heading h2 {
+    font-size: 1.15rem;
+}
+
+.section-heading p {
+    margin-top: 6px;
+
     color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+
+/* =====================================
+   FORMULIER
+===================================== */
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+label,
+.tempo-label {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    font-weight: 600;
 }
 
 input,
 select {
-    background: var(--surface);
+    width: 100%;
+    min-height: 48px;
 
-    color: white;
+    padding: 12px 14px;
 
-    border: none;
-    border-radius: var(--radius);
+    background: var(--surface-soft);
+    color: var(--text);
 
-    padding: 12px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-small);
 
-    font-size: 1rem;
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
 }
+
+input::placeholder {
+    color: var(--text-muted);
+}
+
+input:focus,
+select:focus {
+    background: var(--surface);
+    border-color: var(--accent);
+
+    box-shadow: 0 0 0 3px rgba(79, 143, 143, 0.18);
+}
+
+
+/* =====================================
+   FAVORIETEN
+===================================== */
+
+.favorite-sets {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    padding-top: 18px;
+
+    border-top: 1px solid var(--surface-border);
+}
+
+.favorite-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 10px;
+}
+
+.favorite-actions input {
+    min-width: 0;
+}
+
+.favorite-actions button {
+    min-height: 48px;
+}
+
+#deleteFavoriteSetButton:disabled {
+    opacity: 0.42;
+    cursor: not-allowed;
+}
+
 
 /* =====================================
    TEMPO
 ===================================== */
 
 .tempo-section {
-    text-align: center;
-    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-top: auto;
+    padding-top: 4px;
+}
+
+.tempo-value {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+
+    margin: 8px 0 14px;
 }
 
 .tempo-display {
-    font-size: 2rem;
-    margin: 10px 0;
+    font-size: 2.7rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.tempo-unit {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-weight: 700;
 }
 
 .tempo-controls {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(52px, 1fr));
+    gap: 9px;
+
+    width: 100%;
+    max-width: 310px;
 }
 
+
 /* =====================================
-   BUTTONS
+   KNOPPEN
 ===================================== */
 
 button {
-    border: none;
+    min-height: 48px;
 
-    border-radius: var(--radius);
+    padding: 12px 18px;
 
     background: var(--accent);
-    color: white;
+    color: var(--text);
+
+    border: 0;
+    border-radius: var(--radius-small);
 
     cursor: pointer;
 
-    padding: 14px 20px;
+    font-weight: 600;
 
-    font-size: 1rem;
-
-    transition: background .2s ease;
+    transition:
+        background 0.2s ease,
+        transform 0.1s ease,
+        opacity 0.2s ease;
 }
 
-button:hover {
+button:hover:not(:disabled) {
     background: var(--accent-hover);
 }
+
+button:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+button:focus-visible {
+    outline: 3px solid rgba(94, 165, 165, 0.45);
+    outline-offset: 2px;
+}
+
+.secondary-button {
+    background: var(--accent-dark);
+}
+
+.danger-button {
+    background: transparent;
+
+    color: var(--text-secondary);
+
+    border: 1px solid var(--surface-border);
+}
+
+.danger-button:hover:not(:disabled) {
+    background: rgba(181, 100, 100, 0.16);
+    color: #ffffff;
+
+    border-color: rgba(203, 116, 116, 0.5);
+}
+
+
+/* =====================================
+   OEFENSCHERM
+===================================== */
+
+.practice-heading {
+    text-align: center;
+}
+
+.practice-screen {
+    position: relative;
+
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 330px;
+    margin-top: 10px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(79, 143, 143, 0.08),
+            transparent 65%
+        );
+
+    border-radius: var(--radius);
+}
+
+.chord-display {
+    font-size: clamp(7rem, 15vw, 11rem);
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+}
+
+.countdown-display {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(31, 34, 39, 0.94);
+    border-radius: var(--radius);
+
+    font-size: clamp(7rem, 15vw, 11rem);
+    font-weight: 700;
+}
+
+
+/* =====================================
+   BEAT-INDICATOR
+===================================== */
+
+.beat-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    min-height: 18px;
+    margin: 4px 0 22px;
+}
+
+.beat-dot {
+    width: 12px;
+    height: 12px;
+
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+
+    transition:
+        background 0.15s ease,
+        transform 0.15s ease;
+}
+
+.beat-dot.active {
+    background: var(--accent-hover);
+    transform: scale(1.35);
+}
+
+.beat-gap {
+    width: 10px;
+}
+
+
+/* =====================================
+   BEDIENING
+===================================== */
 
 .main-controls {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 12px;
 
-    margin-top: 30px;
+    margin-top: auto;
 }
 
 #startButton {
-    min-width: 180px;
-    font-size: 1.1rem;
+    width: min(100%, 240px);
+    font-size: 1.05rem;
 }
 
 #pauseButton {
     min-width: 140px;
 }
 
+
 /* =====================================
    FOOTER
 ===================================== */
 
 .footer-links {
-    margin-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
 
+    margin-top: 24px;
+
+    color: var(--text-muted);
+    font-size: 0.8rem;
     text-align: center;
-
-    font-size: .85rem;
-
-    color: var(--text-secondary);
 }
 
 .footer-links a {
@@ -225,8 +501,9 @@ button:hover {
 }
 
 .footer-links a:hover {
-    color: white;
+    color: var(--text);
 }
+
 
 /* =====================================
    HULPKLASSEN
@@ -235,85 +512,217 @@ button:hover {
 .hidden {
     display: none !important;
 }
+
+
 /* =====================================
-   BEAT INDICATOR
+   TABLET EN TELEFOON
 ===================================== */
 
-.beat-indicator {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
+@media (max-width: 760px) {
+    body {
+        padding-top: 16px;
+    }
 
-    margin-top: 20px;
-    margin-bottom: 20px;
+    .app {
+        max-width: 560px;
+    }
 
-    min-height: 16px;
+    .app-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .practice-panel {
+        order: -1;
+    }
+
+    .settings-panel,
+    .practice-panel {
+        padding: 20px;
+    }
+
+    .practice-screen {
+        min-height: 230px;
+    }
+
+    .chord-display,
+    .countdown-display {
+        font-size: clamp(6rem, 28vw, 9rem);
+    }
 }
 
-.beat-dot {
-    width: 12px;
-    height: 12px;
 
-    border-radius: 50%;
+/* =====================================
+   KLEINE TELEFOONS
+===================================== */
 
-    background: rgba(255,255,255,.20);
+@media (max-width: 520px) {
+    body {
+        padding-right: 12px;
+        padding-left: 12px;
+    }
 
-    transition: all .15s ease;
+    .app-header {
+        justify-content: flex-start;
+
+        margin-bottom: 14px;
+        padding: 0 4px;
+    }
+
+    #logo {
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+    }
+
+    .brand-text h1 {
+        font-size: 1.35rem;
+    }
+
+    .brand-text p {
+        font-size: 0.82rem;
+    }
+
+    .settings-panel,
+    .practice-panel {
+        padding: 17px;
+        border-radius: 18px;
+    }
+
+    .practice-screen {
+        min-height: 205px;
+    }
+
+    .favorite-actions {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .favorite-actions input {
+        grid-column: 1 / -1;
+    }
+
+    .favorite-actions button {
+        width: 100%;
+    }
+
+    .tempo-controls {
+        max-width: none;
+    }
 }
 
-.beat-dot.active {
-    background: white;
-    transform: scale(1.25);
-}
 
-.beat-gap {
-    width: 10px;
-}
-.favorite-sets {
-  margin-top: 1.5rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-}
+/* =====================================
+   LANDSCAPE TELEFOON
+===================================== */
 
-.favorite-sets label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-}
+@media (max-height: 540px) and (orientation: landscape) {
+    body {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
 
-.favorite-set-row {
-  display: flex;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
-}
+    .app {
+        width: min(100%, 980px);
+        max-width: none;
+    }
 
-.favorite-set-row select,
-.favorite-set-row input {
-  flex: 1;
-  min-width: 0;
-}
+    .app-header {
+        justify-content: flex-start;
+        margin-bottom: 10px;
+    }
 
-.favorite-set-row button,
-#deleteFavoriteSetButton {
-  flex-shrink: 0;
-}
+    #logo {
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+    }
 
-#deleteFavoriteSetButton {
-  width: 100%;
-}
+    .brand-text h1 {
+        font-size: 1.15rem;
+    }
 
-#deleteFavoriteSetButton:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
+    .brand-text p {
+        display: none;
+    }
 
-@media (max-width: 600px) {
-  .favorite-set-row {
-    flex-direction: column;
-  }
+    .app-layout {
+        grid-template-columns: minmax(300px, 0.9fr) minmax(320px, 1.1fr);
+        gap: 12px;
+    }
 
-  .favorite-set-row button {
-    width: 100%;
-  }
+    .settings-panel,
+    .practice-panel {
+        padding: 14px;
+        border-radius: 16px;
+    }
+
+    .settings-panel {
+        gap: 9px;
+    }
+
+    .section-heading {
+        display: none;
+    }
+
+    .field {
+        gap: 5px;
+    }
+
+    input,
+    select,
+    button {
+        min-height: 40px;
+        padding: 8px 11px;
+    }
+
+    .favorite-sets {
+        gap: 7px;
+        padding-top: 9px;
+    }
+
+    .favorite-actions {
+        gap: 7px;
+    }
+
+    .tempo-section {
+        display: grid;
+        grid-template-columns: auto auto 1fr;
+        gap: 12px;
+        align-items: center;
+
+        padding-top: 0;
+    }
+
+    .tempo-value {
+        margin: 0;
+    }
+
+    .tempo-display {
+        font-size: 2rem;
+    }
+
+    .tempo-controls {
+        max-width: none;
+    }
+
+    .practice-screen {
+        min-height: 185px;
+        margin-top: 0;
+    }
+
+    .chord-display,
+    .countdown-display {
+        font-size: clamp(6rem, 25vh, 9rem);
+    }
+
+    .beat-indicator {
+        margin-bottom: 10px;
+    }
+
+    .main-controls button {
+        min-height: 42px;
+    }
+
+    .footer-links {
+        display: none;
+    }
 }
